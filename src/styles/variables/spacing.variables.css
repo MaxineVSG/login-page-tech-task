@@ -1,0 +1,22 @@
+:root {
+  --base-spacing-unit: 1rem;
+  --common-ratio: 1.5;
+
+  /* Spacing */
+  --spacing-sm: calc(var(--base-spacing-unit));
+
+  --spacing-xs: calc(
+    var(--spacing-sm) /
+    var(--common-ratio)
+  );
+
+  --spacing-md: calc(
+    var(--spacing-sm) *
+    var(--common-ratio)
+  );
+
+  --spacing-lg: calc(
+    var(--spacing-md) *
+    var(--common-ratio)
+  );
+}

@@ -1,6 +1,13 @@
-import { useState } from 'react';
+import { useState, Component } from 'react';
 
 import './style.css';
+import Logo from './components/logo.component.jsx'
+import Form from './components/form.component.jsx'
+import Heading from './components/heading.component.jsx'
+import Input from './components/input.component.jsx'
+import Link from './components/link.component.jsx'
+import Button from './components/button.component.jsx'
+import Footer from './components/footer.component.jsx'
 
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
 
@@ -14,52 +21,53 @@ export const App = () => {
   const canSubmit = form.username !== '' && form.password !== '';
   const hasError = form.password !== '' && !form.password.match(passwordRegex);
 
+  const passwordRules = [
+    '* At least 8 characters',
+    '* Contains at least one lowercase letter',
+    '* Contains at least one uppercase letter',
+    '* Contains at least one digit'
+  ]
+
   return (
     <main>
-      <form onSubmit={handleLogin}>
-        <h1>Login</h1>
-        <p>Please sign in to continue</p>
-        <label>
-          Username:
-          <input
-            type="text"
-            name="username"
-            value={form.username}
-            onChange={(e) =>
-              setForm((prev) => ({ ...prev, username: e.target.value }))
-            }
-          />
-        </label>
-        <br />
-        <label>
-          Password:
-          <input
-            type="password"
-            value={form.password}
-            onChange={(e) =>
-              setForm((prev) => ({ ...prev, password: e.target.value }))
-            }
-          />
-          {hasError && (
-            <ul>
-              <li>At least 8 characters</li>
-              <li>Contains at least one lowercase letter</li>
-              <li>Contains at least one uppercase letter</li>
-              <li>Contains at least one digit</li>
-            </ul>
-          )}
-        </label>
-        <br />
-        <a href="#">Forgot password</a>
-        <br />
-        <button disabled={!canSubmit || hasError} type="submit">
-          Login
-        </button>
-        <p>
-          For access and support please email <a href="#">support@DCM.com</a>
-        </p>
-        <p>DCM Origination Technologies Ltd 2023</p>
-      </form>
+      <Logo />
+      <Form submit={handleLogin}>
+        <div className='u-mb-md'>
+          <Heading title='Log in' subtitle='Please sign in to continue.'/>
+        </div>
+        <Input
+          label='Username'
+          type='text'
+          form={form}
+          change={(e) =>
+            setForm((prev) => ({ ...prev, username: e.target.value }))
+          }
+        />
+        <Input
+          label='Password'
+          type='password'
+          invalid={hasError}
+          form={form}
+          change={(e) =>
+            setForm((prev) => ({ ...prev, password: e.target.value }))
+          }
+          hasError={hasError}
+          errorMsg={passwordRules}
+        />
+        <div className='u-mt-md'>
+          <Link href='#' text='Forgot Password'/>
+        </div>
+        <Button
+          classes='u-my-sm'
+          color='primary'
+          size='lg'
+          isDisabled={!canSubmit || hasError}
+          type='submit'
+          text='Log in'
+        />
+      </Form>
+      <Footer />
+      <img src='BG.svg' className='background'></img>
     </main>
   );
 };
